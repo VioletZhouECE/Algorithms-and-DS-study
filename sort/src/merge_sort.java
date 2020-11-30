@@ -1,5 +1,8 @@
 class MergeSort {
-
+    /* Notes:
+     * 1. The use of aux array avoids creating a new array each time in the recursion call
+     * 2. We need to check if m and n "overflow" before comparing the magnitude of aux[m] and aux[n]
+     */
     private static void merge(int start, int mid, int end, int[] array, int[] aux){
         //copy array to aux array
         for (int i=start; i<=end; i++){
