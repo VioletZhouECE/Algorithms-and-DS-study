@@ -16,38 +16,31 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
     /*
     * swim up: exchange the node with its parent node if the node is greater than its parent node
     * */
-    private void swim(){
-        int node = this.size;
-        int parent = node/2;
-
-        //we need parent > 0 here to stop the loop and prevent the unused keys[0] from being accessed
-        while (parent>0 && this.keys[node].compareTo(this.keys[parent])>0){
-            this.exch(node, parent, this.keys);
-            node = parent;
-            parent = node/2;
+    private void swim(int node){
+        //we need node/2 > 0 here to stop the loop and prevent the unused keys[0] from being accessed
+        while (node/2 > 0){
+            //break if the node is smaller than its parent node
+            if (this.keys[node].compareTo(this.keys[node/2])<=0) break;
+            //otherwise exchange the node with its parent
+            this.exch(node, node/2, this.keys);
+            node = node/2;
         }
     }
 
     /*
      * sink down: exchange the node with its LARGER child node if the node is smaller than ANY of its child node
      * */
-    private void sink(){
-        int node = 1;
-        int lchild = node * 2;
-        int rchild = node * 2 + 1;
-
-        while (lchild <= this.size){
-            int largerChild = lchild;
-            if (rchild <= this.size && this.keys[rchild].compareTo(this.keys[lchild])>0) {
-                largerChild = rchild;
+    private void sink(int node){
+        while (node*2 <= this.size){
+            int largerChild = node * 2;
+            if (node*2+1 <= this.size && this.keys[node*2+1].compareTo(this.keys[largerChild])>0) {
+                largerChild = node*2+1;
             }
-            //return if the node is greater than both of its child node
-            if (this.keys[node].compareTo(this.keys[largerChild]) > 0) return;
+            //break if the node is greater than both of its child node
+            if (this.keys[node].compareTo(this.keys[largerChild]) > 0) break;
             //otherwise exchange node with its LARGER child
             this.exch(node, largerChild, this.keys);
             node = largerChild;
-            lchild = node * 2;
-            rchild = node * 2 + 1;
         }
     }
 
@@ -63,7 +56,7 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
         //add the key to the end of the PQ
         keys[++size] = x;
         //swim: restore the order of the binary heap
-        this.swim();
+        this.swim(this.size);
     }
 
     public Key delMax(){
@@ -74,7 +67,7 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
         //set the last node to null to prevent loitering
         this.keys[size--] = null;
         //sink: rsstore the order of the binary heap
-        this.sink();
+        this.sink(1);
         return max;
     }
 
