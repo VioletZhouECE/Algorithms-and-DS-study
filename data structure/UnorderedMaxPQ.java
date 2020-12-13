@@ -1,3 +1,8 @@
+/*
+* Note that the array index starts from 1 (0 is not used)
+* This is to guarantee that the following important relationship is always true:
+* child1 = parent*2; child2 = parent*2+1; parent = child/2
+* */
 class UnorderedMaxPQ<Key extends Comparable<Key>>{
 
     Key[] keys;
@@ -64,7 +69,7 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
         // delete the head node by replacing it with the last node
         Key max = this.keys[1];
         this.exch(1, this.size, this.keys);
-        //set the last node to null to prevent loitering
+        //set the last node to null to prevent loitering: when there is no reference to key, it can be garbage collected
         this.keys[size--] = null;
         //sink: rsstore the order of the binary heap
         this.sink(1);
