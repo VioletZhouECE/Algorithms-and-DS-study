@@ -14,6 +14,25 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
         this.size = 0;
     }
 
+    /*
+    * construct a max heap from an unordered array in linear time
+    * this is more efficient than inserting all the array items one by one by using insert()
+    * */
+    public UnorderedMaxPQ(Key[] array){
+        this.keys = (Key[]) new Comparable[array.length+1];
+
+        //copy the array
+        for (int i=0; i<array.length; i++){
+            this.keys[i+1] = array[i];
+        }
+        this.size = array.length;
+
+        //sink to build the max heap, starting from the parent node of the last node
+        for (int i=this.size/2; i>=1; i--){
+            this.sink(i);
+        }
+    }
+
     public boolean isEmpty(){
         return this.size == 0;
     }
