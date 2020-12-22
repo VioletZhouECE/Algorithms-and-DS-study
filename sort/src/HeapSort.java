@@ -2,7 +2,9 @@
 public class HeapSort {
     public static void heapsort(int[] array){
         //build the max heap
-        UnorderedMaxPQ<Integer> maxheap = new UnorderedMaxPQ<Integer>(array);
+        UnorderedMaxPQ<Integer> maxheap = UnorderedMaxPQ.UnorderedMaxPQFromIntArray(array);
+        //delMax and restore the heap order
+
     }
 
     public static void main(String[] args){
