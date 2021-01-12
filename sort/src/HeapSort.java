@@ -1,4 +1,3 @@
-
 public class HeapSort {
     public static void heapsort(Integer[] array){
         //build the max heap

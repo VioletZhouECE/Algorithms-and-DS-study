@@ -1,8 +1,8 @@
 /*
-* Note that the array index starts from 1 (0 is not used)
-* This is to guarantee that the following important relationship is always true:
-* child1 = parent*2; child2 = parent*2+1; parent = child/2
-* */
+ * Note that the array index starts from 1 (0 is not used)
+ * This is to guarantee that the following important relationship is always true:
+ * child1 = parent*2; child2 = parent*2+1; parent = child/2
+ * */
 class UnorderedMaxPQ<Key extends Comparable<Key>>{
 
     Key[] keys;
@@ -15,9 +15,9 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
     }
 
     /*
-    * a static method that constructs a max heap from an unordered int array in linear time
-    * this is more efficient than inserting all the array items one by one by using insert()
-    * */
+     * a static method that constructs a max heap from an unordered int array in linear time
+     * this is more efficient than inserting all the array items one by one by using insert()
+     * */
     public void UnorderedMaxPQFromArray(Key[] array){
         //copy the array
         for (int i=0; i<array.length; i++){
@@ -36,8 +36,8 @@ class UnorderedMaxPQ<Key extends Comparable<Key>>{
     }
 
     /*
-    * swim up: exchange the node with its parent node if the node is greater than its parent node
-    * */
+     * swim up: exchange the node with its parent node if the node is greater than its parent node
+     * */
     private void swim(int node){
         //we need node/2 > 0 here to stop the loop and prevent the unused keys[0] from being accessed
         while (node/2 > 0){
