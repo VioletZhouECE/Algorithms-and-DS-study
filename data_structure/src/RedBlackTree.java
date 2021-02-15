@@ -37,21 +37,23 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
     }
 
     //right-leaning -> left-leaning
-    private void rotateLeft(TreeNode h){
+    private TreeNode rotateLeft(TreeNode h){
         TreeNode x = h.right;
         h.right = x.left;
         x.left = h;
         x.color = h.color;
         h.color = RED;
+        return x;
     }
 
     //left-leaning -> right-leaning
-    private void rotateRight(TreeNode h){
+    private TreeNode rotateRight(TreeNode h){
         TreeNode x = h.left;
         h.left = x.right;
         x.right = h;
         x.color = h.color;
         h.color = RED;
+        return x;
     }
 
     //split a 3-node
@@ -69,7 +71,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
     private TreeNode insertHelper(Key key, Value value, TreeNode node){
         if (node == null){
             this.size++;
-            return new TreeNode(key, value, BLACK);
+            return new TreeNode(key, value, RED);
         }
 
         int result = node.key.compareTo(key);
@@ -78,11 +80,25 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
         //else do nothing - avoid inserting duplicate keys
 
         //adjust the links when backtracking
-        if (getColor(node.right) == RED && getColor(node.left) != RED ) rotateLeft(node);
-        if (getColor(node.left) == RED && getColor(node.left.left) == RED) rotateRight(node);
+        if (getColor(node.right) == RED && getColor(node.left) != RED ) node = rotateLeft(node);
+        if (getColor(node.left) == RED && getColor(node.left.left) == RED) node = rotateRight(node);
         if (getColor(node.left) == RED && getColor(node.right) == RED) flipColor(node);
 
         return node;
+    }
+
+    public int getHeight(){
+        return getHeightofNode(this.root);
+    }
+
+    //height = the maximum number of black links from the current node to the leaf
+    private int getHeightofNode(TreeNode node){
+        if (node == null) return 0;
+        if (getColor(node) == RED) {
+            return Math.max(getHeightofNode(node.left), getHeightofNode(node.right));
+        } else {
+            return Math.max(getHeightofNode(node.left), getHeightofNode(node.right))+1;
+        }
     }
 
     //do an inorder traversal of the tree
@@ -98,10 +114,28 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
     }
 
     public static void main(String[] args){
-        RedBlackTree RBT= new RedBlackTree<Integer, String>();
-        RBT.insert(2, "Violet");
-        RBT.insert(1, "May");
-        RBT.insert(3, "Alexander");
-        RBT.print();
+        //keys in descending order
+        RedBlackTree RBT1= new RedBlackTree<Integer, String>();
+        RBT1.insert(7, "Violet");
+        RBT1.insert(6, "May");
+        RBT1.insert(5, "Alexander");
+        RBT1.insert(4, "Anya");
+        RBT1.insert(3, "Maven");
+        RBT1.insert(2, "Susan");
+        RBT1.insert(1, "Tom");
+        RBT1.print();
+        System.out.println(RBT1.getHeight()); //height = 2
+
+        //duplicate keys
+        RedBlackTree RBT2= new RedBlackTree<Integer, String>();
+        RBT2.insert(7, "Violet");
+        RBT2.insert(7, "May");
+        RBT2.insert(7, "Alexander");
+        RBT2.insert(6, "Anya");
+        RBT2.insert(6, "Maven");
+        RBT2.insert(6, "Susan");
+        RBT2.insert(1, "Tom");
+        RBT2.print();
+        System.out.println(RBT2.getHeight()); //height = 1
     }
 }
