@@ -5,8 +5,6 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
     private static final boolean BLACK = false;
     TreeNode root;
     int size;
-    //implement this later
-    //int height;
 
     private class TreeNode <Key extends Comparable<Key>, Value>{
         Key key;
