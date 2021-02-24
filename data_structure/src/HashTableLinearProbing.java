@@ -29,10 +29,23 @@ public class HashTableLinearProbing<Key, Value> {
 
         int i = hash(key);
         while(this.keys[i]!=null){
-            if (this.keys[i]==key) return this.values[i];
-            i++;
+            if (this.keys[i].equals(key)) return this.values[i];
+            i = (i+1)%this.capacity;
         }
         return null;
+    }
+
+    public void delete(Key key){
+        if (key==null) throw new IllegalArgumentException("key cannot be null");
+
+        int i = hash(key);
+        while(this.keys[i]!=null){
+            if (this.keys[i].equals(key)) {
+                this.keys[i] = null;
+                this.values[i] = null;
+            };
+            i = (i+1)%this.capacity;
+        }
     }
 
     private int hash(Key key){
@@ -47,5 +60,7 @@ public class HashTableLinearProbing<Key, Value> {
         System.out.println(hashTable.search("David"));
         System.out.println(hashTable.search("Xinyi"));
         System.out.println(hashTable.search("Evelyn"));
+        hashTable.delete("Xinyi");
+        System.out.println(hashTable.search("Xinyi"));
     }
 }
